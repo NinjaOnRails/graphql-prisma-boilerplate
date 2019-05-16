@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 import getUserId from '../utils/getUserId';
 import generateToken from '../utils/generateToken';
 import hashPassword from '../utils/hashPassword';
@@ -23,7 +23,7 @@ const Mutation = {
       data: { email, password },
     },
     { prisma },
-    info,
+    info
   ) {
     const user = await prisma.query.user({ where: { email } });
     if (!user) {
@@ -33,6 +33,7 @@ const Mutation = {
     if (!isMatch) {
       throw new Error('Unable to login');
     }
+    localStorage.setItem('token', res.data.login.token);
     return {
       user,
       token: generateToken(user.id),
@@ -45,7 +46,7 @@ const Mutation = {
   async updateUser(parent, { data }, { prisma, request }, info) {
     const userId = getUserId(request);
     if (typeof data.password === 'string') {
-      data.password = await hashPassword(data.password)
+      data.password = await hashPassword(data.password);
     }
     return prisma.mutation.updateUser(
       {
@@ -54,7 +55,7 @@ const Mutation = {
         },
         data,
       },
-      info,
+      info
     );
   },
 };
