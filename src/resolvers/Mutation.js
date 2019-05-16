@@ -33,10 +33,13 @@ const Mutation = {
     if (!isMatch) {
       throw new Error('Unable to login');
     }
-    localStorage.setItem('token', res.data.login.token);
+
+    const token = generateToken(user.id);
+
+    localStorage.setItem('token', token);
     return {
       user,
-      token: generateToken(user.id),
+      token,
     };
   },
   deleteUser(parent, args, { prisma, request }, info) {
