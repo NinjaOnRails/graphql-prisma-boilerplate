@@ -36,7 +36,6 @@ const Mutation = {
 
     const token = generateToken(user.id);
 
-    localStorage.setItem('token', token);
     return {
       user,
       token,
